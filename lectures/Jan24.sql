@@ -17,7 +17,7 @@ SELECT datname FROM pg_database;
 -- Let's create a database that will house data about students. It can eventually house
 -- all sorts of entities (some may or may not be directly related to students), so
 -- we will use a generic name.
-CREATE DATABASE smu;
+CREATE DATABASE smu_in_class;
 
 -- Now query for the databases in our system, which should include our SMU DB.
 SELECT datname FROM pg_database;
@@ -93,7 +93,7 @@ SELECT first_name, last_name FROM student;
 -- What happens if we insert a student with an ID that already exists in our system?
 INSERT INTO student (id, first_name, last_name, gpa)
 VALUES
-('1234', 'Duplicate', 'Student', 4.0);
+('12340928', 'Duplicate', 'Student', 4.0);
 
 -- We get an error! Postgres is maintaining the INTEGRITY of our schema by rejecting
 -- a duplicate primary key.
@@ -117,7 +117,7 @@ WHERE last_name LIKE 'Font%';
 -- Now let's add another table, that will store some address data.
 -- In this example, let's say that a student can only belong to a single address.
 CREATE TABLE address (
-    id SERIAL PRIMARY KEY,
+    id SERIAL PRIMARY KEY, -- Auto incrementing key, that starts at 1.
     street1 VARCHAR(30) NOT NULL,
     street2 VARCHAR(30),
     city VARCHAR(30) NOT NULL,
@@ -149,3 +149,6 @@ SELECT * FROM address;
 -- Note how the id field was omitted in the INSERT statements, but they are assigned in
 -- the table. This is useful when you need a unique identifier, but don't really care WHAT
 -- the value of the identifier is at the time you're storing the data.
+
+SELECT * FROM address
+WHERE id = 3;

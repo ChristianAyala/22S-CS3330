@@ -95,6 +95,8 @@ INSERT INTO address (street1, street2, city, state, zip)
 VALUES
 ('789 Commerce', 'PO Box 28482', 'Dallas', 'TX', 75212);
 
+SELECT * FROM address;
+
 INSERT INTO professor (id, first_name, last_name, department, address_id)
 VALUES
 ('3590', 'John', 'Fattaruso', 'PHYS', 3);
