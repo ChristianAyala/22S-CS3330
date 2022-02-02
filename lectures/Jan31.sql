@@ -9,7 +9,6 @@
 
 -- We already see some entities (nouns) and their relationships (verbs).
 -- Let's define a schema to store this hotel data based on the rules above.
-
 CREATE DATABASE hotel_system;
 
 -- We need a hotel table
@@ -58,6 +57,19 @@ VALUES
 ('Hampton Inn'),
 ('Hampton Inn & Suites');
 
+INSERT INTO hotel (id, name)
+VALUES
+(3, 'La Quinta');
+
+INSERT INTO hotel (name)
+VALUES
+('Hilton');
+
+SELECT * FROM hotel;
+
+DELETE FROM hotel
+WHERE id IN (5, 6);
+
 INSERT INTO room (room_number, hotel_id, capacity, is_smoking)
 VALUES
 (101, 1, 2, FALSE),
@@ -80,10 +92,14 @@ VALUES
 -- Gathering all the customer information is straightforward:
 SELECT * FROM customer;
 
+SELECT * FROM room
+WHERE capacity = 6;
+
 -- Figuring out my non-smoking rooms is also straightforward:
 SELECT * FROM room
 WHERE is_smoking = FALSE;
 
+SELECT * FROM hotel;
 -- But what if I want to search for all non-smoking rooms at Hampton Inn?
 -- Well we could update the filter to look for that ID:
 SELECT * FROM room
@@ -114,7 +130,7 @@ JOIN hotel ON room.hotel_id = hotel.id;
 -- We see in the result set that each room now ALSO includes the hotel information.
 -- However, hotel_id is duplicated with an id column. That's not ideal. Let's
 -- update our query to include just a few data points:
-SELECT room.room_number, room.is_smoking, hotel.name
+SELECT room.room_number, room.is_smoking, hotel.name, hotel.id
 FROM room
 JOIN hotel ON hotel.id = room.hotel_id;
 
@@ -131,6 +147,7 @@ AND hotel.name = 'Hampton Inn';
 -- kind of aggregation on an attribute or a set of attributes.
 -- Let's start small and answer the question: how many hotels are in my system?
 SELECT COUNT(*) FROM hotel;
+SELECT * FROM hotel;
 
 -- COUNT(*) means the count of all records.
 
@@ -160,6 +177,8 @@ VALUES
 (103, 1, 2, CURRENT_DATE, CURRENT_DATE + INTERVAL '1 day'),
 (11, 2, 3, CURRENT_DATE, CURRENT_DATE + INTERVAL '5 days'),
 (21, 2, 2, CURRENT_DATE, CURRENT_DATE + INTERVAL '1 day');
+
+SELECT * FROM reservation;
 
 -- What happens if I try to reserve a room number and hotel ID that both
 -- exist, but aren't a combo that is "valid" (i.e. the primary key doesn't exist)?
