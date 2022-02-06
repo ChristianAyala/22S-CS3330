@@ -28,6 +28,7 @@ VALUES
 
 -- We now have 6 customers
 SELECT * FROM customer;
+DELETE FROM customer WHERE ID IN(7, 8, 9);
 
 -- What customers have reservations? Let's start by gathering what customer ID's
 -- are in my reservation table
@@ -53,12 +54,14 @@ RIGHT OUTER JOIN customer c
 -- many kinds of aggregate functions, including SUM, AVG, MIN, MAX.
 -- For example, we can find the earliest / latest starting date for a reservation using
 -- the MIN / MAX aggregate functions respectively
+SELECT * FROM reservation;
 SELECT MIN(start_date) FROM reservation;
 SELECT MAX(start_date) FROM reservation;
 
 -- Suppose I want to look at the reservation table and ask: for each unique
 -- customer, how MANY reservations do they have? So not _all_ the reservation
 -- data, but the count. In this case, we start by trying a COUNT
+SELECT * FROM reservation;
 SELECT COUNT(customer_id) FROM reservation;
 
 -- We know there are 6 reservations, so the result makes sense. We could
@@ -97,6 +100,9 @@ WHERE COUNT(*) >= 2;
 -- with aggregate functions.
 -- WHERE -> used to filter _attributes_
 -- HAVING -> used alongside GROUP BY to filter _aggregate functions_
+SELECT * FROM customer;
+SELECT COUNT(*) FROM customer;
+
 SELECT COUNT(*) AS reservation_count, customer_id, customer.first_name
 FROM reservation
 JOIN customer on customer.id = reservation.customer_id
@@ -105,12 +111,38 @@ HAVING COUNT(*) >= 2; -- NOTE: Use the aggregate function, not the renamed colum
 
 -- Help me answer the following questions:
 -- Provide info on all hotels with any rooms they may have.
+SELECT * FROM hotel;
+INSERT INTO hotel (name)
+VALUES ('La Quinta');
+
+SELECT * FROM hotel
+RIGHT OUTER JOIN room ON room.hotel_id = hotel.id;
+
 -- Provide the number of reservations at Hampton Inn & Suites
+SELECT * FROM hotel
+WHERE name = 'Hampton Inn & Suites';
+SELECT COUNT(*) FROM hotel
+WHERE hotel.name = 'Hampton Inn & Suites';
+SELECT * FROM reservation;
+
 SELECT COUNT(*) FROM reservation
 JOIN hotel ON reservation.hotel_id = hotel.id
 WHERE hotel.name = 'Hampton Inn & Suites';
 
+
+
+SELECT COUNT(*)
+FROM reservation
+JOIN hotel ON reservation.hotel_id = hotel.id
+WHERE hotel.name = 'Hampton Inn & Suites';
+
 -- Provide the number of reservations and hotel name across all hotels
+SELECT COUNT(*), h.name
+FROM reservation
+JOIN hotel h on h.id = reservation.hotel_id
+GROUP BY h.name;
+
+
 SELECT COUNT(*), hotel.name
 FROM reservation
 JOIN hotel on hotel.id = reservation.hotel_id
