@@ -1,0 +1,7 @@
+To run the data generator, run the following commands
+in your terminal:
+
+```sh
+npm install # This will install a few needed dependencies
+node data-generator.js # Runs the script itself
+```
