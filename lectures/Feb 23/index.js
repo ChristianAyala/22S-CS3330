@@ -1,15 +1,15 @@
-/**
- * So far we've learned quite a few things about JS. Strings and numbers
- * are primitive data types, objects are like hash tables, arrays are much
- * like linked lists, and functions are... familiar. We combined them all
- * to make a thing that looks like a class, but isn't.
- */
+// /**
+//  * So far we've learned quite a few things about JS. Strings and numbers
+//  * are primitive data types, objects are like hash tables, arrays are much
+//  * like linked lists, and functions are... familiar. We combined them all
+//  * to make a thing that looks like a class, but isn't.
+//  */
 
-/**
- * Think of a function like a constructor. It receives data and can be
- * stored in LOCAL variables. Since these are local, they are inaccessible
- * outside of the function.
- */
+// /**
+//  * Think of a function like a constructor. It receives data and can be
+//  * stored in LOCAL variables. Since these are local, they are inaccessible
+//  * outside of the function.
+//  */
 const professor = (_firstName, _lastName) => {
     const firstName = _firstName;
     const lastName = _lastName;
@@ -32,58 +32,69 @@ const professor = (_firstName, _lastName) => {
 }
 
 const ayala = professor('Christian', 'Ayala');
-console.log("Ayala's full name:", ayala.fullName());
-ayala.addCourse('CS3330');
-console.log("Ayala's courses:", ayala.getCourses());
 
-/**
- * Note the getCourses() function. It uses a shorthand notation. If you have a function
- * that has a single line that is a return statement, you can reduce it JUST to the 
- * return itself.
- * 
- * So the following are equivalent:
- * 
- * getCourses: () => {
- *     return courses;
- * }
- * 
- * and
- * 
- * getCourses: () => courses
- * 
- * Similarly, we can reduce fullName to the following:
- * 
- * fullName: () => firstName + ' ' + lastName
- * 
- * Syntactic sugar!
- */
-
-/**
- * Javascript didn't originally have classes, but it does now! So rather than get
- * fancy with closures, we can recreate the above in a more familiar format. Just
- * note that classes are just syntactic sugar over the old function style.
- */
-class professorClass {
-    constructor(_firstName, _lastName) {
-        this.firstName = _firstName;
-        this.lastName = _lastName;
-        this.courses = [];
-    }
-    
-    addCourse(course) {
-        this.courses.push(course);
-    }
-    fullName() {
-        return this.firstName + ' ' + this.lastName;
-    }
-    getCourses() {
-        return this.courses;
+const funcThatReturnsAnotherfunction = () => {
+    return () => {
+        console.log('Hello world');
     }
 }
 
-const fontenot = new professorClass('Mark', 'Fontenot');
-console.log('Mark Fontenots full name:', fontenot.fullName());
-console.log('Mark Fontenots first name:', fontenot.firstName);
+// const result = funcThatReturnsAnotherfunction();
+// console.log('Result looks like:', result);
+// result();
+// console.log("Ayala's full name:", ayala.fullName());
+// ayala.addCourse('CS3330');
+// console.log("Ayala's courses:", ayala.getCourses());
+// console.log(ayala);
+
+// /**
+//  * Note the getCourses() function. It uses a shorthand notation. If you have a function
+//  * that has a single line that is a return statement, you can reduce it JUST to the 
+//  * return itself.
+//  * 
+//  * So the following are equivalent:
+//  * 
+//  * getCourses: () => {
+//  *     return courses;
+//  * }
+//  * 
+//  * and
+//  * 
+//  * getCourses: () => courses
+//  * 
+//  * Similarly, we can reduce fullName to the following:
+//  * 
+//  * fullName: () => firstName + ' ' + lastName
+//  * 
+//  * Syntactic sugar!
+//  */
+
+// /**
+//  * Javascript didn't originally have classes, but it does now! So rather than get
+//  * fancy with closures, we can recreate the above in a more familiar format. Just
+//  * note that classes are just syntactic sugar over the old function style.
+//  */
+// class professorClass {
+//     constructor(_firstName, _lastName) {
+//         this.firstName = _firstName;
+//         this.lastName = _lastName;
+//         this.courses = [];
+//     }
+    
+//     addCourse(course) {
+//         this.courses.push(course);
+//     }
+//     fullName() {
+//         return this.firstName + ' ' + this.lastName;
+//     }
+//     getCourses() {
+//         return this.courses;
+//     }
+// }
+
+// const fontenot = new professorClass('Mark', 'Fontenot');
+// console.log('Mark Fontenots full name:', fontenot.fullName());
+// console.log('Mark Fontenots first name:', fontenot.firstName);
 
 /**
  * Keep in mind that by default, data in a class is public. There is a way to
@@ -101,6 +112,11 @@ console.log('Mark Fontenots first name:', fontenot.firstName);
 const logData = (data) => {
     console.log('Logging data:', data);
 }
+const addAString = (data) => {
+    const newString = data + 'New';
+    console.log(newString);
+}
+// logData({ name: 'Christian' });
 
 /**
  * Since a function is a variable, you can pass it to a function like any other
@@ -114,6 +130,7 @@ const applyFunctionToArray = (array, func) => {
 }
 const arrayOfData = ['Christian', 'Ayala', 1234];
 applyFunctionToArray(arrayOfData, logData);
+applyFunctionToArray(arrayOfData, addAString);
 
 /**
  * So in the above example, we define a function that expects two arguments:
@@ -124,7 +141,10 @@ applyFunctionToArray(arrayOfData, logData);
  * 
  * For example, we can reduce the above function to a one-liner
  */
+// arrayOfData.forEach()
+console.log('Starting a forEach');
 arrayOfData.forEach(logData);
+arrayOfData.forEach(addAString);
 
 /**
  * forEach is a function on the array type. forEach expects a _callback function_
@@ -172,23 +192,39 @@ const students = [
     }
 ];
 
-const includes4567 = students.find(student => {
-    return student.id === 4567;
-});
-console.log('Does students include a student with ID 4567?:', includes4567);
+// const includes4567 = students.find(student => {
+//     return student.id === 4567;
+// });
 
-const includesDaniel = students.find(student => {
-    return student.firstName.startsWith('Dan');
-});
-console.log('Does students include a student that has a firstName starting with Dan?:', includesDaniel);
+// let matchingStudent;
+// for (let i = 0; i < students.length; i++) {
+//     if (students[i].id === 4567) {
+//         matchingStudent = students[i];
+//         break;
+//     }
+// }
+// console.log('Matching student:', matchingStudent);
+
+// console.log('Does students include a student with ID 4567?:', includes4567);
+
+// Loose equality: ==
+// Strict equality: ===
+
+// console.log('Does "1" == 1', "1" == 1);
+// console.log('Does "1" === 1', "1" === 1);
+
+// const includesDaniel = students.find(student => {
+//     return student.firstName.startsWith('Dan');
+// });
+// console.log('Does students include a student that has a firstName starting with Dan?:', includesDaniel);
 
 /**
  * To separate out functionality into separate files, node has the concept of "modules".
  * A module is a an object containing a collection of "exported" data. That data can be
  * objects, arrays, functions, strings, clasess, etc. These things are exported from one file and
- * imported in another, much like a #import in C++.
+ * imported in another, much like a #include in C++.
  */
 
-const importedModule = require('./myModule');
+const importedModule = require('./renamedFile');
 console.log('Imported module contains:', importedModule);
 console.log('Multiplying two numbers:', importedModule.multiplyTwoNumbers(3, 4));

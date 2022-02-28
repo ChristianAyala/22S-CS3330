@@ -2,6 +2,18 @@ const fs = require('fs');
 const random = new (require('chance'));
 const dateFns = require('date-fns');
 
+const entityCount = {
+    locations: 10,
+    vehicles: 100,
+    customers: 100,
+    serviceDepartments: 20,
+    employees: 60,
+    reservations: 600,
+    transactions: 2000,
+    maintenanceHistories: 500,
+    employeeMaintenances: 2000,
+}
+
 const mixins = {
     location: (options = {}) => ({
         id: random.integer({ min: 1, max: 100000 }),
@@ -46,7 +58,7 @@ const mixins = {
     }),
     maintenanceHistory: (options = {}) => ({
         id: random.integer({ min: 1, max: 100000 }),
-        maintenance_date: new Date(),
+        maintenance_date: dateFns.addDays(new Date(), random.integer({ min: -7, max: 0})),
         ...options
     }),
     employeeMaintenance: (options = {}) => ({
@@ -57,27 +69,27 @@ const mixins = {
 random.mixin(mixins);
 
 console.log('Generating base entities');
-const locations = random.n(random.location, 3);
-const customers = random.n(random.customer, 5);
+const locations = random.n(random.location, entityCount.locations);
+const customers = random.n(random.customer, entityCount.customers);
 
 console.log('Generating vehicles, service_departments, and employees');
 const vehicles = [
     ...random.n(() =>
         random.vehicle({
             location_id: random.pickone(locations).id
-        }), 10),
-    ...random.n(random.vehicle, 5)
+        }), Math.floor(entityCount.vehicles)),
+    ...random.n(random.vehicle, Math.floor(entityCount.vehicles / 4))
 ];
 
 const serviceDepartments = random.n(() =>
     random.serviceDepartment({
         location_id: random.pickone(locations).id
-    }), 10);
+    }), entityCount.serviceDepartments);
 
 const employees = random.n(() => 
     random.employee({
         service_department_id: random.pickone(serviceDepartments).id
-    }), 10
+    }), entityCount.employees
 );
 
 console.log('Generating reservations');
@@ -85,12 +97,12 @@ const reservations = random.n(() =>
     random.reservation({
         vehicle_id: random.pickone(vehicles).vin,
         customer_id: random.pickone(customers).id
-    }), 5
+    }), entityCount.reservations
 );
 const transactions = random.n(() =>
     random.transaction({
         reservation_id: random.pickone(reservations).id,
-    }), 20
+    }), entityCount.transactions
 );
 
 console.log('Generating maintenance history');
@@ -98,14 +110,14 @@ const maintenanceHistories = random.n(() =>
     random.maintenanceHistory({
         vehicle_id: random.pickone(vehicles).vin,
         service_department_id: random.pickone(serviceDepartments).id
-    }), 10
+    }), entityCount.maintenanceHistories
 );
 
 const employeeMaintenances = random.n(() => 
     random.employeeMaintenance({
         employee_id: random.pickone(employees).id,
         maintenance_history_id: random.pickone(maintenanceHistories).id
-    }), 20
+    }), entityCount.employeeMaintenances
 );
 
 console.log('Creating base entities SQL');

@@ -5,7 +5,7 @@ const multiplyTwoNumbers = (a, b) => {
     return a * b;
 }
 
-const nameOfModule = 'myModule';
+const arbitraryString = 'myModule';
 
 /**
  * module.exports is a special object that gets exported to be shared by
@@ -14,5 +14,5 @@ const nameOfModule = 'myModule';
  */
 module.exports = {
     multiplyTwoNumbers,
-    nameOfModule
+    arbitraryString
 };
