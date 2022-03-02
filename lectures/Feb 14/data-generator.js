@@ -121,7 +121,7 @@ const maintenanceHistories = random.n(() =>
     }), entityCount.maintenanceHistories
 );
 
-const employeeMaintenances = random.n(() => 
+const employeeMaintenances = random.unique(() => 
     random.employeeMaintenance({
         employee_id: random.pickone(employees).id,
         maintenance_history_id: random.pickone(maintenanceHistories).id
