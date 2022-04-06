@@ -6,7 +6,7 @@ const usersRoutes = require('./routes/users');
 const sessionRoutes = require('./routes/session');
 
 // Import any middleware here
-const { authenticateJWT } = require('./middleware/auth');
+const { authenticateJWT, authenticateWithClaims } = require('./middleware/auth');
 
 // Start by defining the express app instance
 const app = express();
@@ -30,6 +30,7 @@ app.use('/session', sessionRoutes);
 
 // For any route that starts with `/users`, use the route handler here
 app.use('/students', authenticateJWT, usersRoutes);
+// app.use('/students', authenticateWithClaims(['student']), usersRoutes);
 
 // Now that we've configured the app, make it listen for incoming requests
 app.listen(port, () => {

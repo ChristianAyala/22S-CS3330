@@ -11,7 +11,7 @@ const authenticateStudent = async (email, password) => {
     }
     const students = await Student.findUserByEmail(email);
     console.log('Students', students);
-    const accessToken = jwt.sign({ ...students[0] }, accessTokenSecret);
+    const accessToken = jwt.sign({ ...students[0], claims: ['professor'] }, accessTokenSecret);
 
     return accessToken;
     
