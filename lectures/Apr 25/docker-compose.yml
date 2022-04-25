@@ -1,0 +1,30 @@
+ version: "3.7"
+ services:
+   app:
+     image: smu-container                         # We want to continue using our smu-container
+     command: sh -c "npm install && npm start"    # The start command when the docker-compose up command is run
+     ports:
+       - 3000:3000                                # We expose port 3000 by binding the container port 3000 to the OS port 3000
+     working_dir: /app                            # These next two sections allow our app to "mount" our OS file system into docker.
+     volumes:                                     # That lets nodemon observe for changes!
+       - ./:/app
+     environment:                                 # Any environment variables can be added here
+       MYSQL_HOST: mysql                          # They can be accessed in code like:
+       MYSQL_USER: root                           # const mysqlHost = process.env.MYSQL_HOST;
+       MYSQL_PASSWORD: secret
+       MYSQL_DB: todos
+
+   mongo:
+     image: mongo                             # This section mainly converts the docker run command from the docker-commands.sh
+     ports:                                       # file into docker-compose configurations
+       - 27017:27017
+     volumes:
+       - smu-data:/var/lib/mongo
+     environment:
+       MONGO_INITDB_ROOT_USERNAME: root
+       MONGO_INITDB_ROOT_PASSWORD: secret
+ 
+ volumes:                                         # Create a volume for our spiffy new app database
+  smu-data:
+
+
